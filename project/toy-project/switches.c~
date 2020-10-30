@@ -3,8 +3,8 @@
 #include "led.h"
 #include "stateMachines.h"
 
-char switch_state_down, switch_state_changed; /* effectively boolean */
-int master;
+char switch_state_down, switch_state_changed, blink_count, blink_count2, seconds; /* effectively boolean */
+int master, x;
 
 static char 
 switch_update_interrupt_sense()
@@ -33,12 +33,24 @@ switch_interrupt_handler()
   char p2val = switch_update_interrupt_sense();
   if((p2val & SW1) == 0){
     master = 1;
+    seconds = 0;
+    blink_count = 0;
+    blink_count2 = 0;
+    x = 500;
   }
   else if((p2val & SW2) == 0){
-    master = 0;
+    master = 2;
+    seconds = 0;
+    blink_count = 0;
+    blink_count2 = 0;
+    x = 500;
   }
   else{
     master = 0;
+    seconds = 0;
+    blink_count = 0;
+    blink_count2 = 0;
+    x = 500;
   }
   switch_state_changed = 1;
 }

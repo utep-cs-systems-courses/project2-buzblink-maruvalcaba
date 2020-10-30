@@ -6,6 +6,19 @@
 int master = 1;
 int x = 500;
 
+void red_off()
+{
+  red_on = 0;
+  led_changed = 1;
+  led_update();
+}
+
+void green_off()
+{
+  green_on = 0;
+  led_changed = 1;
+  led_update();
+}
 
 void both_on()
 {
@@ -269,13 +282,12 @@ void buzzer_advance(int sb)		/* alternate between toggling red & green */
 {
   switch(sb){
   case 0:
-    x+=225;
+    x+=8;
     break;
   case 1:
-    x-=450;
+    x-=16;
     break;
   }
-  led_update();
 }
 
 
