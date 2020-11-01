@@ -11,7 +11,9 @@ extern unsigned char red_on, green_on;
 extern unsigned char led_changed;
 
 void led_init();		/* initialize LEDs */
+
 void led_update();		/* update leds */
+
 char red_on_all();
 
 char toggle_red();

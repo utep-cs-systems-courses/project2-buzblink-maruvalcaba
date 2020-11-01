@@ -1,26 +1,25 @@
 ## Description
-This interrupt-driven program flashes the LEDs in a silly pattern.
+This program utilizes the 4 buttons on the green board, SW1 - SW4, to switch
+between different states of the toy. Pressing the different buttons will have
+a different toy function be enabled.
 
-## Exploration
+## How to use
+(1) When the device is powered on and loaded, it will be in an idle state with
+both leds active on the board, no sound.
 
-_Write some some code in Assembly Language_
+(2) If you press the different switches they will have different
+outcomes.
 
-Translate led.c to led_s.s, and modify the Makefile to reference it.  Remember
+- Pressing SW1 will do a siren with leds depending on the movement of
+the frequency.
 
-* to put global and static vars in the data segment and instructions in the
-text segment using the .data and .text directives,
-* to make global symbols visible to other modules using .global, and
-* to import external symbols from other modules with .extern
+- Pressing SW2 will do a funky ambulance sound with alternating
+leds.
 
-_Changing speed:_ Figure out how to flash the lights faster or slower.  Determine if there's a speed where the lights don't appear to flash... but glow instead!
+- Pressing SW3 will do a dimming sequence with sound that follows it.
 
-_Counting to three:_  Change the program to slowly and repeatedly
-count from zero to three, displaying the value in binary using the red
-& green lights. This is simpler than the program we provided.
+- Pressing SW4 will set the toy back to the idle mode.
 
-## Some Advice
-When creating your own variants to the demo programs,
-it's probably a good idea to keep a copy of the original program (or really understand how _git checkout_ works).  
 
 
 

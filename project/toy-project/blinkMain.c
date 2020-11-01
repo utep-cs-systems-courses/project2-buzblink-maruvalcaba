@@ -7,9 +7,9 @@
 
 int main(void) {
   configureClocks();		/* setup master oscillator, CPU & peripheral clocks */
-  led_init();
-  buzzer_init();
-  switch_init();
+  led_init();                   /* initiate leds */
+  buzzer_init();                /* initiate buzzer */
+  switch_init();                /* initiate switches */
   enableWDTInterrupts();	/* enable periodic interrupt */
 
   or_sr(0x18);		/* CPU off, GIE on */
