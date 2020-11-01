@@ -1,26 +1,26 @@
 #include <msp430.h>
 #include "stateMachines.h"
 #include "led.h"
-#include "stateMachines.h"
 
-int master = 1;
-int x = 500;
+int master = 0;                 /* master state set automatically to 0 */
+int substate = 0;               /* substate set automatically to 0 */
+int x = 500;                    /* x set to 0 */
 
-void red_off()
+void red_off()                  /* red light off*/
 {
   red_on = 0;
   led_changed = 1;
   led_update();
 }
 
-void green_off()
+void green_off()                /* green light off */
 {
   green_on = 0;
   led_changed = 1;
   led_update();
 }
 
-void both_on()
+void both_on()                  /* both lights on */
 {
   red_on = 1;
   green_on = 1;
@@ -28,15 +28,15 @@ void both_on()
   led_update();
 }
 
-char red_on_all()		/* always toggle! */
+char red_on_all()	        /* 100% brightness red */
 {
   red_on = 1;
   led_changed = 1;
   led_update();
-  return 1;			/* always changes an led */
+  return 1;			
 }
 
-char toggle_red()		/* always toggle! */
+char toggle_red()		/* 50% brightness red */
 {
   static char state = 0;
 
@@ -50,10 +50,10 @@ char toggle_red()		/* always toggle! */
     state = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;			
 }
 
-char red_33()		/* always toggle! */
+char red_33()		        /* 33% brightness red */
 {
   static char state2 = 0;
 
@@ -71,10 +71,10 @@ char red_33()		/* always toggle! */
     state2 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;			
 }
 
-char red_66()		/* always toggle! */
+char red_66()		        /* 66% brightness red */
 {
   static char state3 = 0;
   
@@ -92,10 +92,10 @@ char red_66()		/* always toggle! */
     state3 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;		       
 }
 
-char red_25()		/* always toggle! */
+char red_25()	                /* 25% brightness red */
 {
   static char state4 = 0;
   
@@ -116,16 +116,16 @@ char red_25()		/* always toggle! */
     red_on = 1;
     state4 = 0;
   }
-  return 1;			/* always changes an led */
+  return 1;			
 }
 
-char green_on_all()		/* always toggle! */
+char green_on_all()		/* 100% brightness green */
 {
   green_on = 1;
-  return 1;			/* always changes an led */
+  return 1;			
 }
 
-char toggle_green()		/* always toggle! */
+char toggle_green()		/* 50% brightness green */
 {
   static char state5 = 0;
   
@@ -139,10 +139,10 @@ char toggle_green()		/* always toggle! */
     state5 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;		      
 }
 
-char green_33()		/* always toggle! */
+char green_33()		/* 33% brightness green */
 {
   static char state6 = 0;
   
@@ -160,10 +160,10 @@ char green_33()		/* always toggle! */
     state6 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;			
 }
 
-char green_66()		/* always toggle! */
+char green_66()		/* 66% brightness green */
 {
   static char state7 = 0;
   
@@ -181,10 +181,10 @@ char green_66()		/* always toggle! */
     state7 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;		      
 }
 
-char green_25()		/* always toggle! */
+char green_25()		/* 25% brightness green */
 {
   static char state8 = 0;
 
@@ -205,60 +205,49 @@ char green_25()		/* always toggle! */
     green_on = 1;
     state8 = 0;
   }
-  return 1;			/* always changes an led */
+  return 1;			  
 }
-/*
-char toggle_green()	 only toggle green if red is on!  
-{
-  char changed = 0;
-  if(red_on){
-    green_on ^= 1;
-    changed = 1;
-  }
-  return changed;
-}
-*/
 
-void state_advance()		/* alternate between toggling red & green */
+void state_advance()   		   /* switch between different dimming modes */
 {
-  switch(master){
+  switch(substate){
   case 0:
-    led_changed = red_on_all();
+    led_changed = red_on_all();    /* 100% brightness red */
     green_on = 0; break;
   case 5:
-    led_changed = green_on_all();
+    led_changed = green_on_all();  /* 100% brightness green */
     red_on = 0; break;
   case 1:
-    led_changed = red_66();
+    led_changed = red_66();        /* 66% brightness red */
     green_on = 0; break;
   case 6:
-    led_changed = green_66();
+    led_changed = green_66();      /* 66% brightness green */
     red_on = 0; break;
   case 2:
-    led_changed = toggle_red();
+    led_changed = toggle_red();    /* 50% brightness red */
     green_on = 0; break;
   case 7:
-    led_changed = toggle_green();
+    led_changed = toggle_green();  /* 50% brightness green */
     red_on = 0; break;
   case 3:
-    led_changed = red_33();
+    led_changed = red_33();        /* 33% brightness red */
     green_on = 0; break;
   case 8:
-    led_changed = green_33();
+    led_changed = green_33();      /* 33% brightness green */
     red_on = 0; break;
   case 4:
-    led_changed = red_25();
+    led_changed = red_25();        /* 25% brightness red */
     green_on = 0; break;
   case 9:
-    led_changed = green_25();
+    led_changed = green_25();      /* 25% brightness green */
     red_on = 0; break;
   }
   led_update();
 }
 
-void go_up()
+void go_up()                        /* function that moves the frequency up and enables a specific light */
 {
-  static char sb = 0;
+  static char sb = 0;               /* indicates if we are moving up or down */
   sb = 0;
   led_changed = 1;
   green_on = 1;
@@ -267,9 +256,9 @@ void go_up()
   buzzer_advance(sb);
 }
 
-void go_down()
+void go_down()                      /* function that moves the frequency down and enables a specific light */
 {
-  static char sb = 0;
+  static char sb = 0;               /* indicates if we are moving up or down */
   sb = 1;
   led_changed = 1;
   red_on = 1;
@@ -278,14 +267,14 @@ void go_down()
   buzzer_advance(sb);
 }
 
-void buzzer_advance(int sb)		/* alternate between toggling red & green */
+void buzzer_advance(int sb)	    /* advances the buzzer for a certain function */
 {
   switch(sb){
   case 0:
-    x+=8;
+    x+=8;                           /* increases the frequency by 8 */
     break;
   case 1:
-    x-=16;
+    x-=16;                          /* decreases the frequecy by 16 */
     break;
   }
 }

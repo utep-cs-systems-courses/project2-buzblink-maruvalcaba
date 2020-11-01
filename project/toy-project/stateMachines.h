@@ -3,9 +3,11 @@
 
 extern int master;
 
-extern int x;
+extern int substate;
 
-extern char blink_count2;
+extern int x;               /* frequency */
+
+extern char blink_count2;   /* secondary blink count */
 
 extern char seconds;
 
