@@ -24,7 +24,7 @@ led.o: led.c led.h
 
 wdInterruptHandler.o: stateMachines.h buzzer.h led.h
 
-stateMachines.o: led.h stateMachines.h
+stateMachines.o: led.h stateMachines.h buzzer.h
 
 switches.o: led.h switches.h stateMachines.h
 

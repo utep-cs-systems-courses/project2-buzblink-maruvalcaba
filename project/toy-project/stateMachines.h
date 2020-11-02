@@ -25,5 +25,7 @@ void green_off();
 
 void both_on();
 
+void ambulance_advance(int stateA);
+
 void buzzer_advance(int sb);
 #endif // included

@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "stateMachines.h"
 #include "led.h"
+#include "buzzer.h"
 
 int master = 0;                 /* master state set automatically to 0 */
 int substate = 0;               /* substate set automatically to 0 */
@@ -213,33 +214,43 @@ void state_advance()   		   /* switch between different dimming modes */
   switch(substate){
   case 0:
     led_changed = red_on_all();    /* 100% brightness red */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     green_on = 0; break;
   case 5:
     led_changed = green_on_all();  /* 100% brightness green */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     red_on = 0; break;
   case 1:
     led_changed = red_66();        /* 66% brightness red */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     green_on = 0; break;
   case 6:
     led_changed = green_66();      /* 66% brightness green */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     red_on = 0; break;
   case 2:
     led_changed = toggle_red();    /* 50% brightness red */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     green_on = 0; break;
   case 7:
     led_changed = toggle_green();  /* 50% brightness green */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     red_on = 0; break;
   case 3:
     led_changed = red_33();        /* 33% brightness red */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     green_on = 0; break;
   case 8:
     led_changed = green_33();      /* 33% brightness green */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     red_on = 0; break;
   case 4:
     led_changed = red_25();        /* 25% brightness red */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     green_on = 0; break;
   case 9:
     led_changed = green_25();      /* 25% brightness green */
+    buzzer_set_period(2000000/x);       /* set buzzer */
     red_on = 0; break;
   }
   led_update();
@@ -253,6 +264,7 @@ void go_up()                        /* function that moves the frequency up and 
   green_on = 1;
   red_on = 0;
   led_update();
+  buzzer_set_period(2000000/x);     /* set buzzer */
   buzzer_advance(sb);
 }
 
@@ -264,6 +276,7 @@ void go_down()                      /* function that moves the frequency down an
   red_on = 1;
   green_on = 0;
   led_update();
+  buzzer_set_period(2000000/x);     /* set buzzer */
   buzzer_advance(sb);
 }
 
@@ -279,6 +292,21 @@ void buzzer_advance(int sb)	    /* advances the buzzer for a certain function */
   }
 }
 
+void ambulance_advance(int stateA)
+{
+  switch(stateA){
+  case 0:
+    buzzer_set_period(2000000/2500);  /* set buzzer */
+      green_on_all();                   /* 2 lines set lights */
+      red_off();
+      break;
+  case 1:
+    buzzer_set_period(2000000/500);   /* set buzzer */
+      red_on_all();                     /* set leds */
+      green_off();
+      break;
+  }
+}
 
 
 
