@@ -5,7 +5,8 @@
 #include "buzzer.h"
 #include "switches.h"
 
-int main(void) {
+int main(void)
+{
   configureClocks();		/* setup master oscillator, CPU & peripheral clocks */
   led_init();                   /* initiate leds */
   buzzer_init();                /* initiate buzzer */
